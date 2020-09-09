@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<efsm:EFSM xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:efsm="http://www.example.org/efsm" name="ProfessorOnline">
+  <transitions name="S0->S1" output="" source="//@initialstate" target="//@states.0" guard="" action="">
+    <input name="login">
+      <variables name="id" type="String" class="Teacher"/>
+      <variables name="psw" type="String" class="Teacher"/>
+    </input>
+    <event name="login" return="void" class="ProfessorOnline">
+      <args argName="id" argType="String"/>
+      <args argName="psw" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S1->S2" output="not (userOk = false)" source="//@states.0" target="//@states.1" guard="! (userOk = false)" action="not (userOk = false)">
+    <input name="validateUser">
+      <variables name="id" type="String" class="Teacher"/>
+      <variables name="psw" type="String" class="Teacher"/>
+    </input>
+    <event name="validateUser" return="boolean" class="User">
+      <args argName="id" argType="String"/>
+      <args argName="psw" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S1->S0" output="userOk = false" source="//@states.0" target="//@initialstate" guard="userOk == false" action="userOk = false">
+    <input name="validateUser">
+      <variables name="id" type="String" class="Teacher"/>
+      <variables name="psw" type="String" class="Teacher"/>
+    </input>
+    <event name="validateUser" return="boolean" class="User">
+      <args argName="id" argType="String"/>
+      <args argName="psw" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S2->S3" output="" source="//@states.1" target="//@states.2" guard="" action="">
+    <input name="logged"/>
+  </transitions>
+  <transitions name="S3->S4" output="" source="//@states.2" target="//@states.3" guard="" action="">
+    <input name="chooseClass"/>
+  </transitions>
+  <transitions name="S4->S5" output="closePlanOk = false" source="//@states.3" target="//@states.4" guard="closePlanOk == false" action="closePlanOk = false">
+    <input name="getClosePlanOk">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+    </input>
+    <event name="getClosePlanOk" return="boolean" class="Plan">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S5->S6" output="" source="//@states.4" target="//@states.5" guard="" action="">
+    <input name="requestPlan"/>
+  </transitions>
+  <transitions name="S6->S7" output="" source="//@states.5" target="//@states.6" guard="" action="">
+    <input name="enterPlan">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+      <variables name="contentPlan" type="String" class="Teacher"/>
+    </input>
+    <event name="enterPlan" return="void" class="ProfessorOnline">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+      <args argName="contentPlan" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S7->S8" output="closePlanOk " source="//@states.6" target="//@states.7" guard="" action="">
+    <input name="insertPlan">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+      <variables name="contentPlan" type="String" class="Teacher"/>
+    </input>
+    <event name="insertPlan" return="boolean" class="Plan">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+      <args argName="contentPlan" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S4->S9" output="closePlanOk = true" source="//@states.3" target="//@states.8" guard="closePlanOk == true" action="closePlanOk = true">
+    <input name="getClosePlanOk">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+    </input>
+    <event name="getClosePlanOk" return="boolean" class="Plan">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S9->S10" output="" source="//@states.8" target="//@states.9" guard="" action="">
+    <input name="enterOption"/>
+  </transitions>
+  <transitions name="S10->S11" output="workLoad " source="//@states.9" target="//@states.10" guard="" action="">
+    <input name="getWorkLoad">
+      <variables name="subjectId" type="String" class="Teacher"/>
+    </input>
+    <event name="getWorkLoad" return="int" class="Subject">
+      <args argName="subjectId" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S11->S12" output="opt = &quot;classRecord&quot; and hours &lt; workLoad" source="//@states.10" target="//@states.11" guard="opt == &quot;classRecord&quot; &amp;&amp; hours &lt; workLoad" action="opt = &quot;classRecord&quot; and hours &lt; workLoad">
+    <input name="getHours">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+    </input>
+    <event name="getHours" return="int" class="ClassRecord">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S12->S13" output="" source="//@states.11" target="//@states.12" guard="" action="">
+    <input name="enterClassRecord">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+      <variables name="date" type="Date" class="Teacher"/>
+      <variables name="hours" type="int" class="Teacher"/>
+      <variables name="contentClass" type="String" class="Teacher"/>
+    </input>
+    <event name="enterClassRecord" return="void" class="ProfessorOnline">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+      <args argName="date" argType="Date"/>
+      <args argName="hours" argType="int"/>
+      <args argName="contentClass" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S13->S14" output="classRecordOk " source="//@states.12" target="//@states.13" guard="" action="">
+    <input name="insertClassRecord">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+      <variables name="date" type="Date" class="Teacher"/>
+      <variables name="hours" type="int" class="Teacher"/>
+      <variables name="contentClass" type="String" class="Teacher"/>
+    </input>
+    <event name="insertClassRecord" return="boolean" class="ClassRecord">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+      <args argName="date" argType="Date"/>
+      <args argName="hours" argType="int"/>
+      <args argName="contentClass" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S11->S15" output="opt = &quot;gradeRecord&quot;" source="//@states.10" target="//@states.14" guard="opt == &quot;gradeRecord&quot;" action="opt = &quot;gradeRecord&quot;">
+    <input name="getHours">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+    </input>
+    <event name="getHours" return="int" class="ClassRecord">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S15->S16" output="" source="//@states.14" target="//@states.15" guard="" action="">
+    <input name="enterGradeRecord">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+      <variables name="studentId" type="String" class="Teacher"/>
+      <variables name="grade1" type="double" class="Teacher"/>
+      <variables name="grade2" type="double" class="Teacher"/>
+      <variables name="grade3" type="double" class="Teacher"/>
+    </input>
+    <event name="enterGradeRecord" return="void" class="ProfessorOnline">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+      <args argName="studentId" argType="String"/>
+      <args argName="grade1" argType="double"/>
+      <args argName="grade2" argType="double"/>
+      <args argName="grade3" argType="double"/>
+    </event>
+  </transitions>
+  <transitions name="S16->S17" output="" source="//@states.15" target="//@states.16" guard="" action="">
+    <input name="insertGradeRecord">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+      <variables name="studentId" type="String" class="Teacher"/>
+      <variables name="grade1" type="double" class="Teacher"/>
+      <variables name="grade2" type="double" class="Teacher"/>
+      <variables name="grade3" type="double" class="Teacher"/>
+    </input>
+    <event name="insertGradeRecord" return="void" class="GradeRecord">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+      <args argName="studentId" argType="String"/>
+      <args argName="grade1" argType="double"/>
+      <args argName="grade2" argType="double"/>
+      <args argName="grade3" argType="double"/>
+    </event>
+  </transitions>
+  <transitions name="S17->S18" output="" source="//@states.16" target="//@states.17" guard="" action="">
+    <input name="insertedGradeRecord"/>
+  </transitions>
+  <transitions name="S11->S19" output="opt = &quot;closeClass&quot; and hours = workLoad" source="//@states.10" target="//@states.18" guard="opt == &quot;closeClass&quot; &amp;&amp; hours == workLoad" action="opt = &quot;closeClass&quot; and hours = workLoad">
+    <input name="getHours">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+    </input>
+    <event name="getHours" return="int" class="ClassRecord">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S19->S20" output="" source="//@states.18" target="//@states.19" guard="" action="">
+    <input name="insertCloseClass">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+    </input>
+    <event name="insertCloseClass" return="void" class="ProfessorOnline">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S20->S21" output="" source="//@states.19" target="//@states.20" guard="" action="">
+    <input name="updateCloseClass">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+    </input>
+    <event name="updateCloseClass" return="void" class="Classes">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S21->S22" output="" source="//@states.20" target="//@states.21" guard="" action="">
+    <input name="closedClass"/>
+  </transitions>
+  <transitions name="S14->S23" output="not (opt &lt;> &quot;exit&quot;)" source="//@states.13" target="//@states.22" guard="! (opt != &quot;exit&quot;)" action="not (opt &lt;> &quot;exit&quot;)">
+    <input name="enterOption">
+      <variables name="opt" type="String" class="Teacher"/>
+    </input>
+    <event name="enterOption" return="String" class="ProfessorOnline">
+      <args argName="opt" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S18->S23" output="not (opt &lt;> &quot;exit&quot;)" source="//@states.17" target="//@states.22" guard="! (opt != &quot;exit&quot;)" action="not (opt &lt;> &quot;exit&quot;)">
+    <input name="enterOption">
+      <variables name="opt" type="String" class="Teacher"/>
+    </input>
+    <event name="enterOption" return="String" class="ProfessorOnline">
+      <args argName="opt" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S22->S23" output="not (opt &lt;> &quot;exit&quot;)" source="//@states.21" target="//@states.22" guard="! (opt != &quot;exit&quot;)" action="not (opt &lt;> &quot;exit&quot;)">
+    <input name="enterOption">
+      <variables name="opt" type="String" class="Teacher"/>
+    </input>
+    <event name="enterOption" return="String" class="ProfessorOnline">
+      <args argName="opt" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S11->S23" output="not (opt &lt;> &quot;exit&quot;)" source="//@states.10" target="//@states.22" guard="! (opt != &quot;exit&quot;)" action="not (opt &lt;> &quot;exit&quot;)">
+    <input name="enterOption">
+      <variables name="opt" type="String" class="Teacher"/>
+    </input>
+    <event name="enterOption" return="String" class="ProfessorOnline">
+      <args argName="opt" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S14->S10" output="opt &lt;> &quot;exit&quot;" source="//@states.13" target="//@states.9" guard="opt != &quot;exit&quot;" action="opt &lt;> &quot;exit&quot;">
+    <input name="enterOption">
+      <variables name="opt" type="String" class="Teacher"/>
+    </input>
+    <event name="enterOption" return="String" class="ProfessorOnline">
+      <args argName="opt" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S18->S10" output="opt &lt;> &quot;exit&quot;" source="//@states.17" target="//@states.9" guard="opt != &quot;exit&quot;" action="opt &lt;> &quot;exit&quot;">
+    <input name="enterOption">
+      <variables name="opt" type="String" class="Teacher"/>
+    </input>
+    <event name="enterOption" return="String" class="ProfessorOnline">
+      <args argName="opt" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S22->S10" output="opt &lt;> &quot;exit&quot;" source="//@states.21" target="//@states.9" guard="opt != &quot;exit&quot;" action="opt &lt;> &quot;exit&quot;">
+    <input name="enterOption">
+      <variables name="opt" type="String" class="Teacher"/>
+    </input>
+    <event name="enterOption" return="String" class="ProfessorOnline">
+      <args argName="opt" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S11->S10" output="opt &lt;> &quot;exit&quot;" source="//@states.10" target="//@states.9" guard="opt != &quot;exit&quot;" action="opt &lt;> &quot;exit&quot;">
+    <input name="enterOption">
+      <variables name="opt" type="String" class="Teacher"/>
+    </input>
+    <event name="enterOption" return="String" class="ProfessorOnline">
+      <args argName="opt" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S8->S24" output="" source="//@states.7" target="//@states.23" guard="" action="">
+    <input name="chooseClass">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+    </input>
+    <event name="chooseClass" return="void" class="ProfessorOnline">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S23->S24" output="" source="//@states.22" target="//@states.23" guard="" action="">
+    <input name="chooseClass">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+    </input>
+    <event name="chooseClass" return="void" class="ProfessorOnline">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S24->S25" output="not (chooseClassOk = true)" source="//@states.23" target="//@states.24" guard="! (chooseClassOk == true)" action="not (chooseClassOk = true)">
+    <input name="validateChooseClass">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+    </input>
+    <event name="validateChooseClass" return="boolean" class="Classes">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S24->S4" output="chooseClassOk = true" source="//@states.23" target="//@states.3" guard="chooseClassOk == true" action="chooseClassOk = true">
+    <input name="validateChooseClass">
+      <variables name="period" type="String" class="Teacher"/>
+      <variables name="classId" type="String" class="Teacher"/>
+    </input>
+    <event name="validateChooseClass" return="boolean" class="Classes">
+      <args argName="period" argType="String"/>
+      <args argName="classId" argType="String"/>
+    </event>
+  </transitions>
+  <transitions name="S25->S26" output="" source="//@states.24" target="//@states.25" guard="" action="">
+    <input name="exit"/>
+  </transitions>
+  <transitions name="S26->S27" output="" source="//@states.25" target="//@states.26" guard="" action="">
+    <input name="loggof"/>
+  </transitions>
+  <initialstate name="S0"/>
+  <states name="S1"/>
+  <states name="S2"/>
+  <states name="S3"/>
+  <states name="S4"/>
+  <states name="S5"/>
+  <states name="S6"/>
+  <states name="S7"/>
+  <states name="S8"/>
+  <states name="S9"/>
+  <states name="S10"/>
+  <states name="S11"/>
+  <states name="S12"/>
+  <states name="S13"/>
+  <states name="S14"/>
+  <states name="S15"/>
+  <states name="S16"/>
+  <states name="S17"/>
+  <states name="S18"/>
+  <states name="S19"/>
+  <states name="S20"/>
+  <states name="S21"/>
+  <states name="S22"/>
+  <states name="S23"/>
+  <states name="S24"/>
+  <states name="S25"/>
+  <states name="S26"/>
+  <states name="S27"/>
+  <contextVariables name="userOk" type="boolean"/>
+  <contextVariables name="closePlanOk" type="boolean"/>
+  <contextVariables name="workLoad" type="int"/>
+  <contextVariables name="hours" type="int"/>
+  <contextVariables name="classRecordOk" type="boolean"/>
+  <contextVariables name="opt" type="String"/>
+  <contextVariables name="chooseClassOk" type="boolean"/>
+</efsm:EFSM>

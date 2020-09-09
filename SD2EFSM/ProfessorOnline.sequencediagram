@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequencediagram:SequenceDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sequencediagram="http://www.example.org/sequencediagram" name="ProfessorOnline">
+  <lifeLines name="Teacher" start="true">
+    <abstractObject xsi:type="sequencediagram:Actor" name="Teacher"/>
+  </lifeLines>
+  <lifeLines name="ProfessorOnline">
+    <abstractObject xsi:type="sequencediagram:Object" name="ProfessorOnline"/>
+  </lifeLines>
+  <lifeLines name="User">
+    <abstractObject xsi:type="sequencediagram:Object" name="User"/>
+  </lifeLines>
+  <lifeLines name="Classes">
+    <abstractObject xsi:type="sequencediagram:Object" name="Classes"/>
+  </lifeLines>
+  <lifeLines name="Plan">
+    <abstractObject xsi:type="sequencediagram:Object" name="Plan"/>
+  </lifeLines>
+  <lifeLines name="Subject">
+    <abstractObject xsi:type="sequencediagram:Object" name="Subject"/>
+  </lifeLines>
+  <lifeLines name="ClassRecord">
+    <abstractObject xsi:type="sequencediagram:Object" name="ClassRecord"/>
+  </lifeLines>
+  <lifeLines name="GradeRecord">
+    <abstractObject xsi:type="sequencediagram:Object" name="GradeRecord"/>
+  </lifeLines>
+  <fragments xsi:type="sequencediagram:CombinedFragment" name="validateUser" interactionOperator="loop">
+    <operands guard="userOk = false">
+      <fragOpds xsi:type="sequencediagram:Message" name="login" target="//@lifeLines.1" source="//@lifeLines.0">
+        <operation returnType="void">
+          <args argName="id" argType="String" lifeline="//@lifeLines.0"/>
+          <args argName="psw" argType="String" lifeline="//@lifeLines.0"/>
+        </operation>
+      </fragOpds>
+      <fragOpds xsi:type="sequencediagram:Message" name="validateUser" target="//@lifeLines.2" source="//@lifeLines.1">
+        <operation returnVariable="userOk" returnType="boolean" guard="this.id.equals(id) &amp;&amp; this.psw.equals(psw)">
+          <args argName="id" argType="String" lifeline="//@lifeLines.0"/>
+          <args argName="psw" argType="String" lifeline="//@lifeLines.0"/>
+        </operation>
+      </fragOpds>
+      <fragOpds xsi:type="sequencediagram:Message" name="userOk" type="re" target="//@lifeLines.1" source="//@lifeLines.2"/>
+    </operands>
+  </fragments>
+  <fragments xsi:type="sequencediagram:Message" name="logged" type="si" target="//@lifeLines.0" source="//@lifeLines.1"/>
+  <fragments xsi:type="sequencediagram:Message" name="chooseClass" type="si" target="//@lifeLines.1" source="//@lifeLines.0"/>
+  <fragments xsi:type="sequencediagram:CombinedFragment" name="chooseClass" interactionOperator="loop">
+    <operands guard="chooseClassOk = true">
+      <fragOpds xsi:type="sequencediagram:Message" name="getClosePlanOk" target="//@lifeLines.4" source="//@lifeLines.1">
+        <operation returnVariable="closePlanOk" returnType="boolean" guard="">
+          <args argName="period" argType="String" lifeline="//@lifeLines.0"/>
+          <args argName="classId" argType="String" lifeline="//@lifeLines.0"/>
+        </operation>
+      </fragOpds>
+      <fragOpds xsi:type="sequencediagram:Message" name="closePlanOk" type="re" target="//@lifeLines.1" source="//@lifeLines.4"/>
+      <fragOpds xsi:type="sequencediagram:CombinedFragment" name="closePlan">
+        <operands guard="closePlanOk = false">
+          <fragOpds xsi:type="sequencediagram:Message" name="requestPlan" type="si" target="//@lifeLines.0" source="//@lifeLines.1"/>
+          <fragOpds xsi:type="sequencediagram:Message" name="enterPlan" target="//@lifeLines.1" source="//@lifeLines.0">
+            <operation returnType="void">
+              <args argName="period" argType="String" lifeline="//@lifeLines.0"/>
+              <args argName="classId" argType="String" lifeline="//@lifeLines.0"/>
+              <args argName="contentPlan" argType="String" lifeline="//@lifeLines.0"/>
+            </operation>
+          </fragOpds>
+          <fragOpds xsi:type="sequencediagram:Message" name="insertPlan" target="//@lifeLines.4" source="//@lifeLines.1">
+            <operation returnVariable="closePlanOk" returnType="boolean" guard="this.period.equals(period) &amp;&amp; this.classId.equals(classId) &amp;&amp; contentPlan != &quot;&quot;">
+              <args argName="period" argType="String" lifeline="//@lifeLines.0"/>
+              <args argName="classId" argType="String" lifeline="//@lifeLines.0"/>
+              <args argName="contentPlan" argType="String" lifeline="//@lifeLines.0"/>
+            </operation>
+          </fragOpds>
+          <fragOpds xsi:type="sequencediagram:Message" name="closePlanOk" type="re" target="//@lifeLines.1" source="//@lifeLines.4"/>
+        </operands>
+        <operands guard="closePlanOk = true">
+          <fragOpds xsi:type="sequencediagram:Message" name="enterOption" type="si" target="//@lifeLines.1" source="//@lifeLines.0"/>
+          <fragOpds xsi:type="sequencediagram:CombinedFragment" name="optionLoop" interactionOperator="loop">
+            <operands guard="opt &lt;> &quot;exit&quot;">
+              <fragOpds xsi:type="sequencediagram:Message" name="getWorkLoad" target="//@lifeLines.5" source="//@lifeLines.1">
+                <operation returnVariable="workLoad" returnType="int">
+                  <args argName="subjectId" argType="String" lifeline="//@lifeLines.0"/>
+                </operation>
+              </fragOpds>
+              <fragOpds xsi:type="sequencediagram:Message" name="workLoad" type="re" target="//@lifeLines.1" source="//@lifeLines.5"/>
+              <fragOpds xsi:type="sequencediagram:Message" name="getHours" target="//@lifeLines.6" source="//@lifeLines.1">
+                <operation returnVariable="hours" returnType="int">
+                  <args argName="period" argType="String" lifeline="//@lifeLines.0"/>
+                  <args argName="classId" argType="String" lifeline="//@lifeLines.0"/>
+                </operation>
+              </fragOpds>
+              <fragOpds xsi:type="sequencediagram:Message" name="hours" type="re" target="//@lifeLines.1" source="//@lifeLines.6"/>
+              <fragOpds xsi:type="sequencediagram:CombinedFragment" name="optionAlt" interactionOperator="alt">
+                <operands guard="opt = &quot;classRecord&quot; and hours &lt; workLoad">
+                  <fragOpds xsi:type="sequencediagram:Message" name="enterClassRecord" target="//@lifeLines.1" source="//@lifeLines.0">
+                    <operation returnType="void">
+                      <args argName="period" argType="String" lifeline="//@lifeLines.0"/>
+                      <args argName="classId" argType="String" lifeline="//@lifeLines.0"/>
+                      <args argName="date" argType="Date" lifeline="//@lifeLines.0"/>
+                      <args argName="hours" argType="int" lifeline="//@lifeLines.0"/>
+                      <args argName="contentClass" argType="String" lifeline="//@lifeLines.0"/>
+                    </operation>
+                  </fragOpds>
+                  <fragOpds xsi:type="sequencediagram:Message" name="insertClassRecord" target="//@lifeLines.6" source="//@lifeLines.1">
+                    <operation returnVariable="classRecordOk" returnType="boolean" guard="this.period.equals(period) &amp;&amp; this.classId.equals(classId) &amp;&amp; hours > 0 &amp;&amp;  contentClass != &quot;&quot;">
+                      <args argName="period" argType="String" lifeline="//@lifeLines.0"/>
+                      <args argName="classId" argType="String" lifeline="//@lifeLines.0"/>
+                      <args argName="date" argType="Date" lifeline="//@lifeLines.0"/>
+                      <args argName="hours" argType="int" lifeline="//@lifeLines.0"/>
+                      <args argName="contentClass" argType="String" lifeline="//@lifeLines.0"/>
+                    </operation>
+                  </fragOpds>
+                  <fragOpds xsi:type="sequencediagram:Message" name="classRecordOk" type="re" target="//@lifeLines.1" source="//@lifeLines.6"/>
+                </operands>
+                <operands guard="opt = &quot;gradeRecord&quot;">
+                  <fragOpds xsi:type="sequencediagram:Message" name="enterGradeRecord" target="//@lifeLines.1" source="//@lifeLines.0">
+                    <operation returnType="void">
+                      <args argName="period" argType="String" lifeline="//@lifeLines.0"/>
+                      <args argName="classId" argType="String" lifeline="//@lifeLines.0"/>
+                      <args argName="studentId" argType="String" lifeline="//@lifeLines.0"/>
+                      <args argName="grade1" argType="double" lifeline="//@lifeLines.0"/>
+                      <args argName="grade2" argType="double" lifeline="//@lifeLines.0"/>
+                      <args argName="grade3" argType="double" lifeline="//@lifeLines.0"/>
+                    </operation>
+                  </fragOpds>
+                  <fragOpds xsi:type="sequencediagram:Message" name="insertGradeRecord" target="//@lifeLines.7" source="//@lifeLines.1">
+                    <operation returnType="void">
+                      <args argName="period" argType="String" lifeline="//@lifeLines.0"/>
+                      <args argName="classId" argType="String" lifeline="//@lifeLines.0"/>
+                      <args argName="studentId" argType="String" lifeline="//@lifeLines.0"/>
+                      <args argName="grade1" argType="double" lifeline="//@lifeLines.0"/>
+                      <args argName="grade2" argType="double" lifeline="//@lifeLines.0"/>
+                      <args argName="grade3" argType="double" lifeline="//@lifeLines.0"/>
+                    </operation>
+                  </fragOpds>
+                  <fragOpds xsi:type="sequencediagram:Message" name="insertedGradeRecord" type="si" target="//@lifeLines.1" source="//@lifeLines.7"/>
+                </operands>
+                <operands guard="opt = &quot;closeClass&quot; and hours = workLoad">
+                  <fragOpds xsi:type="sequencediagram:Message" name="insertCloseClass" target="//@lifeLines.1" source="//@lifeLines.0">
+                    <operation returnType="void">
+                      <args argName="period" argType="String" lifeline="//@lifeLines.0"/>
+                      <args argName="classId" argType="String" lifeline="//@lifeLines.0"/>
+                    </operation>
+                  </fragOpds>
+                  <fragOpds xsi:type="sequencediagram:Message" name="updateCloseClass" target="//@lifeLines.3" source="//@lifeLines.1">
+                    <operation returnType="void">
+                      <args argName="period" argType="String" lifeline="//@lifeLines.0"/>
+                      <args argName="classId" argType="String" lifeline="//@lifeLines.0"/>
+                    </operation>
+                  </fragOpds>
+                  <fragOpds xsi:type="sequencediagram:Message" name="closedClass" type="si" target="//@lifeLines.1" source="//@lifeLines.3"/>
+                </operands>
+              </fragOpds>
+              <fragOpds xsi:type="sequencediagram:Message" name="enterOption" target="//@lifeLines.1" source="//@lifeLines.0">
+                <operation returnVariable="opt" returnType="String">
+                  <args argName="opt" argType="String" lifeline="//@lifeLines.0"/>
+                </operation>
+              </fragOpds>
+              <fragOpds xsi:type="sequencediagram:Message" name="opt" type="re" target="//@lifeLines.1" source="//@lifeLines.1"/>
+            </operands>
+          </fragOpds>
+        </operands>
+      </fragOpds>
+      <fragOpds xsi:type="sequencediagram:Message" name="chooseClass" target="//@lifeLines.1" source="//@lifeLines.0">
+        <operation returnVariable="" returnType="void">
+          <args argName="period" argType="String" lifeline="//@lifeLines.0"/>
+          <args argName="classId" argType="String" lifeline="//@lifeLines.0"/>
+        </operation>
+      </fragOpds>
+      <fragOpds xsi:type="sequencediagram:Message" name="validateChooseClass" target="//@lifeLines.3" source="//@lifeLines.1">
+        <operation returnVariable="chooseClassOk" returnType="boolean" guard="this.period.equals(period) &amp;&amp; this.classId.equals(classId)">
+          <args argName="period" argType="String" lifeline="//@lifeLines.0"/>
+          <args argName="classId" argType="String" lifeline="//@lifeLines.0"/>
+        </operation>
+      </fragOpds>
+      <fragOpds xsi:type="sequencediagram:Message" name="chooseClassOk" type="re" target="//@lifeLines.1" source="//@lifeLines.3"/>
+    </operands>
+  </fragments>
+  <fragments xsi:type="sequencediagram:Message" name="exit" type="si" target="//@lifeLines.1" source="//@lifeLines.0"/>
+  <fragments xsi:type="sequencediagram:Message" name="loggof" type="si" target="//@lifeLines.0" source="//@lifeLines.1"/>
+</sequencediagram:SequenceDiagram>
